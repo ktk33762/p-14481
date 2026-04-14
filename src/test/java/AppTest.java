@@ -1,10 +1,6 @@
-import org.example.standard.util.TestUtil;
-import org.example.App;
+import org.example.AppTestRunner;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.io.ByteArrayOutputStream;
-import java.util.Scanner;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -13,12 +9,26 @@ public class AppTest {
     @Test
     @DisplayName("`== 명언 앱 == ` 출력")
     public void t1 () {
-        Scanner scanner = TestUtil.genScanner("종료");
-
-        ByteArrayOutputStream output = TestUtil.setOutToByteArray();
-        new App(scanner).run();
-        String rs = output.toString();
+        String rs = AppTestRunner.run("종료");
 
         assertThat(rs).contains("== 명언 앱 ==");
+    }
+
+    @Test
+    @DisplayName("등록시 생성된 명언번호 노출")
+    void t2() {
+        String rs = AppTestRunner.run("""
+                등록
+                현재를 사랑하라.
+                작자미상
+                등록
+                현재를 사랑하라.
+                작자미상
+                종료
+                """);
+
+        assertThat(rs)
+                .contains("1번 명언이 등록되었습니다.")
+                .contains("2번 명언이 등록되었습니다.");
     }
 }

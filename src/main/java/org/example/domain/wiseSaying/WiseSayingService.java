@@ -4,7 +4,6 @@ import org.example.AppContext;
 import org.example.WiseSaying;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class WiseSayingService {
@@ -59,7 +58,7 @@ public class WiseSayingService {
         return switch (keywordType) {
             case "content" -> wiseSayingRepository.findByKeywordTypeAndKeyword(keyword);
             case "author" -> wiseSayingRepository.findForListByAuthorContaining(keyword);
-            default -> Collections.emptyList(); // null 대신 빈 리스트
+            default -> wiseSayingRepository.findForListByAuthororContentContaining(keyword);
         };
     }
 }

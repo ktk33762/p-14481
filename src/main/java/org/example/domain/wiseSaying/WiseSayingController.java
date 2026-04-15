@@ -3,6 +3,7 @@ package org.example.domain.wiseSaying;
 import org.example.AppContext;
 import org.example.WiseSaying;
 import org.example.global.Rq;
+import org.example.standard.dto.Pageable;
 
 import java.util.Scanner;
 
@@ -35,7 +36,12 @@ public class WiseSayingController {
         System.out.println("번호 / 작가 / 명언");
         System.out.println("----------------------");
 
-        for (WiseSaying wiseSaying : wiseSayingService.findForList(keywordType, keyword)) {
+        int pageSize = rq.getParamsAsInt("pageSize", 5);
+        int pageNum = rq.getParamsAsInt("page", 1);
+
+        Pageable pageable = new Pageable(pageNum, pageSize);
+
+        for (WiseSaying wiseSaying : wiseSayingService.findForList(keywordType, keyword, pageable)) {
             System.out.printf("%d / %s / %s\n", wiseSaying.getId(), wiseSaying.getAuthor(), wiseSaying.getContent());
         }
     }

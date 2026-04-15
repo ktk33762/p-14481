@@ -2,6 +2,7 @@ package org.example.domain.wiseSaying;
 
 import org.example.AppContext;
 import org.example.WiseSaying;
+import org.example.standard.dto.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +22,8 @@ public class WiseSayingService {
         return wiseSaying;
     }
 
-    public List<WiseSaying> findForList () {
-        return wiseSayingRepository.findForList();
+    public List<WiseSaying> findForList (Pageable pageable) {
+        return wiseSayingRepository.findForList(pageable);
     }
 
     public void delete(WiseSaying wiseSaying) {
@@ -50,15 +51,16 @@ public class WiseSayingService {
         wiseSayingRepository.save(wiseSaying);
     }
 
-    public List<WiseSaying> findForList(String keywordType, String keyword) {
+
+    public List<WiseSaying> findForList(String keywordType, String keyword, Pageable pageable) {
         if (keyword.isBlank()) {
-            return wiseSayingRepository.findForList();
+            return wiseSayingRepository.findForList(pageable);
         }
 
         return switch (keywordType) {
-            case "content" -> wiseSayingRepository.findByKeywordTypeAndKeyword(keyword);
-            case "author" -> wiseSayingRepository.findForListByAuthorContaining(keyword);
-            default -> wiseSayingRepository.findForListByAuthororContentContaining(keyword);
+            case "content" -> wiseSayingRepository.findByKeywordTypeAndKeyword(keyword, pageable);
+            case "author" -> wiseSayingRepository.findForListByAuthorContaining(keyword, pageable);
+            default -> wiseSayingRepository.findForListByAuthororContentContaining(keyword, pageable);
         };
     }
 }

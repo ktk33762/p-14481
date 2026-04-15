@@ -1,37 +1,39 @@
 package org.example;
 
+import org.example.domain.system.SystemController;
+import org.example.domain.wiseSaying.WiseSayingController;
+import org.example.global.Rq;
+
 import java.util.Scanner;
 
 public class App {
     private final Scanner scanner;
 
-    public App (Scanner scanner) {
-        this.scanner = scanner;
+    public App() {
+        this.scanner = AppContext.scanner;
     }
 
     public void run () {
-        int lastId = 0;
+        SystemController systemController = AppContext.systemController;
+        WiseSayingController wiseSayingController = new WiseSayingController();
+
+
         System.out.println("== 명언 앱 ==");
 
         while (true) {
-            System.out.println("명령) ");
-            String cmd = scanner.nextLine().trim();
+            System.out.print("명령) ");
+            String cmd = scanner.nextLine();
+            String actionName = cmd.split("\\?")[0];
 
-            switch (cmd) {
-                case "등록" -> {
-                    System.out.println("명언 : ");
-                    String content = scanner.nextLine().trim();
+            Rq rq = new Rq(cmd);
 
-                    System.out.println("작가 : ");
-                    String author = scanner.nextLine().trim();
-
-                    lastId++;
-                    System.out.printf("%d번 명언이 등록되었습니다.\n", lastId);
-
-
-                }
+            switch (actionName) {
+                case "등록" -> wiseSayingController.actionWrite();
+                case "목록" -> wiseSayingController.actionList(rq);
+                case "삭제" -> wiseSayingController.actionDelete(rq);
+                case "수정" -> wiseSayingController.actionModify(rq);
                 case "종료" -> {
-                    System.out.println("프로그램을 종료합니다.");
+                    systemController.exit();
                     return;
                 }
             }

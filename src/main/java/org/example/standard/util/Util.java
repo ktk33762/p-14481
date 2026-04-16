@@ -88,6 +88,10 @@ public class Util {
         public static boolean notExists(String filePath) {
             return !exists(filePath);
         }
+
+        public static void rmdir(String dirPath) {
+            delete(dirPath);
+        }
     }
 
     public static class json {
@@ -177,5 +181,6 @@ public class Util {
 
             return map;
         }
+
     }
 }

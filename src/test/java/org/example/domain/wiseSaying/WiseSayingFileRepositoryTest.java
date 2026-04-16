@@ -1,6 +1,10 @@
 package org.example.domain.wiseSaying;
 
+import org.example.AppContext;
 import org.example.WiseSaying;
+import org.example.standard.util.Util;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +15,16 @@ public class WiseSayingFileRepositoryTest {
 
     WiseSayingFileRepositoryTest() {
         wiseSayingFileRepository = new WiseSayingFileRepository();
+    }
+
+    @BeforeAll
+    static void beforeAll() {
+        AppContext.renew();
+    }
+
+    @BeforeEach
+    void beforeEach() {
+        Util.file.rmdir("db/wiseSaying");
     }
 
     @Test
